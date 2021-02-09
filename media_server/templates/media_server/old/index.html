@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Page Title</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'style.css' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}" />
+</head>
+
+<body>
+    <nav>
+        <a href="/library/">Home</a>
+        <hr/>
+    </nav>
+
+    {% if libraries %}
+        <table>
+            <thead>
+                <th>Libraries</th>
+            </thead>
+
+            <tbody>
+                {% for library in libraries %}
+                <tr>
+                    <td><a href="/library/{{library.id}}/">{{library.name}}</a></td>
+                    <td>{{library.library_type}}</td>
+                </tr>{% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+        <p>No libraries videos found.</p>
+        <p><a href="#">Create one</a></p>
+
+    {% endif %}
+
+
+</body>
+</html>

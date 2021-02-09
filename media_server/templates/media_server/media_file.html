@@ -1,0 +1,60 @@
+{% extends "./tv_episode.html" %}
+{% load static %}
+{% load filters %}
+
+{% block title %}
+    TODO
+{% endblock %}
+
+{% block header4 %}    
+    <h4>
+        <a href="{% url 'tv_episode' episode.id %}">
+            Episode {{episode.episode_index|stringformat:"02d"}}
+            {% if episode.name %}
+                 - {{episode.name}}
+            {% endif %}
+        </a>
+    </h4>
+{% endblock %}
+
+{% block header5 %}
+    <h5>File info</h5>
+{% endblock  %}
+
+{% block content %}
+    <p>
+        <table>
+            <thead>
+                <th>Format</th>
+            </thead>
+        
+            <tbody>
+                {% for key, value in ffprobe.format.items %}
+                <tr>
+                    <td>{{key}}</td>
+                    <td>{{value}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </p>
+
+    <p>
+        <table>
+            <thead>
+                <th>Streams</th>
+            </thead>
+        
+            <tbody>
+                {% for stream in ffprobe.streams %}
+                    {% for key, value in stream.items %}
+                        <tr>
+                            <td>{{key}}</td>
+                            <td>{{value}}</td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </p>
+{% endblock %}

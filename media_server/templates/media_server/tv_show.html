@@ -1,0 +1,34 @@
+{% extends "./library_tv_shows.html" %}
+{% load static %}
+
+{% block title %}
+    {{tv_show.name}}
+{% endblock %}
+
+{% block header1 %}
+    <h1><a href="{% url 'library' library.id %}">{{library.name}}</a></h1>
+{% endblock %}
+
+{% block header2 %}
+    <h2>{{tv_show.name}}</h2>
+{% endblock %}
+
+{% block content %}
+    <p>{{tv_show.overview}}</p>
+
+    {% for season in seasons %}
+        {% url 'tv_season' season.id as tv_season_url %}
+
+        <div class="cell cell-tall">
+            <a href="{{tv_season_url}}">
+                <img src="{{season.poster_path}}" alt="{{season.season_index}}">
+            </a>
+        
+            <div class="cell-title ellipsis">
+                <a href="{{tv_season_url}}">
+                    Season {{season.season_index|stringformat:"02d"}}
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

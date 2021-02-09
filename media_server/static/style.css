@@ -1,0 +1,89 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: whitesmoke;
+    background-color: rgb(30, 30, 30);
+}
+
+a {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-decoration: none;
+    color: orange;
+}
+
+h1, h2, h3, h4, h5 {
+    color: orange;
+}
+
+a:hover {
+    color: red;
+}
+
+table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+th, td {
+    width: 10%;
+    overflow: hidden;
+}
+
+table, th, td {
+    border: 1px solid rgb(60, 60, 60);
+    border-collapse: collapse;
+}
+
+.tkey {
+    table-layout: fixed;
+    width: 10%;
+}
+
+.tvalue {
+    table-layout: fixed;
+    width: 90%;
+    color: grey;
+}
+
+.cell {
+    float: left;
+    margin: 30px;
+}
+
+.cell-tall {
+    width: 200px;
+    height: 300px;
+}
+
+.cell-wide {
+    width: 300px;
+    height: 169px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.cell img {
+    float: left;
+    width: 100%;
+    height: 100%;
+    border: 2px transparent solid;
+}
+
+.cell img:hover {
+    border: 2px orange solid;
+}
+
+.cell-title {
+    font-size: 16pt;
+    width: 100%;
+}
+
+.cell-subtitle {
+    font-size: 12pt;
+}
+
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: orange;
+}

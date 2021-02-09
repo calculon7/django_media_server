@@ -1,0 +1,4 @@
+django
+jsonfield
+psutil
+requests

@@ -1,0 +1,30 @@
+{% extends "media_server/cell_base.html" %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block headers %}
+{% endblock %}
+
+{% block content %}
+    {% if libraries %}
+        <table>
+            <thead>
+                <th>Libraries</th>
+            </thead>
+
+            <tbody>
+                {% for library in libraries %}
+                <tr>
+                    <td><a href="/library/{{library.id}}/">{{library.name}}</a></td>
+                    <td>{{library.library_type}}</td>
+                </tr>{% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+        <p>No libraries videos found.</p>
+        <p><a href="#">Create one</a></p>
+
+    {% endif %}
+{% endblock %}

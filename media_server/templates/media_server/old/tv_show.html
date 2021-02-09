@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Page Title</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'style.css' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}" />
+</head>
+
+<body>
+    <nav>
+        <a href="/library/">Home</a>
+        <hr/>
+    </nav>
+
+    <h1><a href="/library/{{library.id}}/">{{library.name}}</a></h1>
+
+    <h2>{{tv_show.name}}</h2>
+
+    <p>{{tv_show.overview}}</p>
+    
+    {% for season in seasons %}
+        <div class="cell cell-tall">
+            <a href="/library/{{library.id}}/tv_show/{{tv_show.id}}/season/{{season.id}}">
+                <img src="{{season.poster_path}}" alt="{{season.season_index}}">
+            </a>
+            
+            <div class="cell-title ellipsis">
+                <a href="/library/{{library.id}}/tv_show/{{tv_show.id}}/season/{{season.id}}">
+                    Season {{season.season_index|stringformat:"02d"}}
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'style.css' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}" />
+</head>
+
+<body>
+    <nav>
+        <a href="{% url 'index' %}">Home</a>
+        <hr/>
+    </nav>
+
+    {% block header1 %}{% endblock %}
+    {% block header2 %}{% endblock %}
+    {% block header3 %}{% endblock %}
+    {% block header4 %}{% endblock %}
+    {% block header5 %}{% endblock %}
+
+    {% block content %}{% endblock %}
+</body>
+</html>

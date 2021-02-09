@@ -1,0 +1,26 @@
+<div>
+    <input id="search_input" placeholder="filter">
+</div>
+
+<script>
+    let search = document.getElementById("search_input");
+    
+    search.value = "";
+
+    search.addEventListener("input", ev => {
+        let search_term = search.value.trim().toLowerCase();
+        
+        let cells = document.getElementsByClassName("cell");
+
+        Array.from(cells).forEach(cell => {
+            let title = cell.children[1].innerText.toLowerCase();
+
+            if (search.value == "") {
+                cell.style.display = null;
+            }
+            else if (!title.includes(search_term)) {
+                cell.style.display = "none";
+            }
+        });
+    });
+</script>

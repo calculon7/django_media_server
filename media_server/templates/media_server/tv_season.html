@@ -1,0 +1,38 @@
+{% extends "./tv_show.html" %}
+{% load static %}
+
+{% block title %}
+    Season {{season.season_index|stringformat:"02d"}}
+{% endblock %}
+
+{% block header2 %}
+    <h2><a href="{% url 'tv_show' tv_show.id %}">{{tv_show.name}}</a></h2>
+{% endblock %}
+
+{% block header3 %}
+    <h3>Season {{season.season_index|stringformat:"02d"}}</h3>
+{% endblock  %}
+
+{% block content %}
+    {% for episode in episodes %}
+        {% url 'tv_episode' episode.id as tv_episode_url %}
+
+        <div class="cell cell-wide">
+            <a href="{{tv_episode_url}}">
+                <img src="{{episode.still_path}}" alt="{{season.season_index}}">
+            </a>
+
+            <div class="cell-title ellipsis">
+                <a href="{{tv_episode_url}}">
+                    {{episode.name}}
+                </a>
+            </div>
+
+            <div class="cell-subtitle">
+                <a href="{{tv_episode_url}}">
+                    Episode {{episode.episode_index|stringformat:"02d"}}
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends "./tv_episode.html" %}
+{% load static %}
+
+{% block title %}
+    TODO
+{% endblock %}
+
+{% block header4 %}    
+    <h4>
+        <a href="{% url 'tv_episode' episode.id %}">
+            Episode {{episode.episode_index|stringformat:"02d"}}
+            {% if episode.name %}
+                 - {{episode.name}}
+            {% endif %}
+        </a>
+    </h4>
+{% endblock %}
+
+{% block header5 %}
+    <h5>Player</h5>
+{% endblock  %}
+
+{% block content %}
+    <!-- <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script> -->
+
+    <!-- <video id="video" controls autoplay width="500" height="500" style="border: 2px red;"></video> -->
+    
+    <!-- <script>
+        /** @type {HTMLMediaElement} */
+        let video = document.getElementById('video');
+        var hls = new Hls({ liveDurationInfinity: true });
+
+        let d = 0;
+
+        fetch("{% url 'hls_start' media_file.id %}")
+            .then(response => response.json())
+            .then(data => {
+                let hls_id = data['hls_id'];
+
+                let kb = document.getElementById('kill_button');
+
+                kb.addEventListener("click", () => {
+                    hls.destroy();
+
+                    fetch("/hls_stop/" + hls_id)
+                        .then(res => console.log(res));
+                });
+
+                kb.style.display = null;
+
+                let timer = setInterval(() => {
+                    console.log('starting video player')
+                    clearInterval(timer);
+                    
+                    let videoSrc = `/static/hls/${hls_id}/stream.m3u8`;
+
+                    if (Hls.isSupported()) {
+                        hls.loadSource(videoSrc);
+                        hls.attachMedia(video);
+                        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                            video.play();
+
+                            // setInterval(() => {
+                            //     console.log(video.duration);
+                            // }, 1000);
+                        });
+                    }
+                    else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                        video.src = videoSrc;
+                        video.addEventListener('loadedmetadata', function () {
+                            video.play();
+                        });
+                    }
+
+                    video.addEventListener("play", ev => {
+                        ev.preventDefault();
+
+                        hls.startLoad();
+                            
+                        fetch(`/hls_resume/${hls_id}`)
+                            .then(x => console.log('ffmpeg resumed'))
+                            .catch(err => console.log('ffmpeg could not be resumed: ' + err))
+                    });
+
+                    video.addEventListener("pause", ev => {
+                        ev.preventDefault();
+
+                        hls.stopLoad();
+                            
+                        fetch(`/hls_pause/${hls_id}`)
+                            .then(x => console.log('ffmpeg suspended'))
+                            .catch(err => console.log('ffmpeg could not be suspended: ' + err))
+                    });
+                }, 5000); // buffer time
+            })
+            .catch(err => console.log("error: " + err));
+    </script> -->
+
+    <button id="kill_button" style="display: none;">kill ffmpeg</button>
+    <video id="videoPlayer" controls autoplay width="500" height="500" style="border: 2px red;"></video>
+
+    <script src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
+
+    <script>
+        let video = document.getElementById("videoPlayer");
+        
+        // start ffmpeg dash stream
+        fetch("{% url 'hls_start' media_file.id %}")
+            .then(response => response.json())
+            .then(data => {
+                // get hls_id response
+                let hls_id = data['hls_id'];
+
+                let kb = document.getElementById('kill_button');
+
+                kb.addEventListener("click", () => {
+                    fetch("/hls_stop/" + hls_id)
+                        .then(res => console.log(res));
+                });
+
+                kb.style.display = null;
+
+                let timer = setInterval(() => {
+                    console.log('starting video player')
+                    clearInterval(timer);
+
+                    var url = `/static/hls/${hls_id}/stream.m3u8`;
+                    var player = dashjs.MediaPlayer().create();
+                    player.initialize(document.querySelector("#videoPlayer"), url, true);
+
+                    video.addEventListener("play", ev => {
+                        ev.preventDefault();
+
+                        fetch(`/hls_resume/${hls_id}`)
+                            .then(x => {                                
+                                // player.reset();
+                                console.log('ffmpeg resumed');
+                            })
+                            .catch(err => console.log('ffmpeg could not be resumed: ' + err))
+                    });
+
+                    video.addEventListener("pause", ev => {
+                        // ev.preventDefault();
+                        // player.pause();
+
+                        fetch(`/hls_pause/${hls_id}`)
+                            .then(x => {
+                                console.log('ffmpeg suspended');
+                            })
+                            .catch(err => console.log('ffmpeg could not be suspended: ' + err))
+                    });
+                }, 2000); // buffer time
+            })
+            .catch(err => console.log("error: " + err));
+    </script>
+    
+
+    {% endblock %}

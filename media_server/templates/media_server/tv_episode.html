@@ -1,0 +1,36 @@
+{% extends "./tv_season.html" %}
+{% load static %}
+
+{% block title %}
+    Episode {{episode.episode_index|stringformat:"02d"}}
+{% endblock %}
+
+{% block header3 %}
+    <h3><a href="{% url 'tv_season' season.id %}">Season {{season.season_index|stringformat:"02d"}}</a></h3>
+{% endblock %}
+
+{% block header4 %}    
+    <h4>
+        Episode {{episode.episode_index|stringformat:"02d"}}
+        {% if episode.name %}
+             - {{episode.name}}
+        {% endif %}
+    </h4>
+{% endblock %}
+
+{% block content %}
+    <div>{{episode.overview}}</div>
+    
+    <img class="cell-wide" src="{{episode.still_path}}" alt="{{episode.episode_index}}">
+
+    {% for file in files %}
+        {% url 'media_file' file.id as media_file_url%}
+        <p>
+            <a href="{{media_file_url}}?action=play">Play</a>
+             - 
+            <a href="{{media_file_url}}">Info</a>
+             - 
+            {{file.filepath}}
+        </p>
+    {% endfor %}
+{% endblock %}

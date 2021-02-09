@@ -1,0 +1,40 @@
+{% extends "./cell_base.html" %}
+{% load static %}
+
+{% block title %}
+    {{library.name}}
+{% endblock %}
+
+{% block header1 %}
+    <script>
+        function scanPost() {
+            fetch("{% url 'scan' library.id %}", { method: 'POST', headers: { "X-CSRFToken": "{{csrf_token}}" } })
+                .then(x => console.log(x))
+                .catch(x => console.log(x));
+        }
+    </script>
+    <h1>
+        {{library.name}}
+        <button onclick="scanPost()">Scan</button>
+    </h1>
+{% endblock %}
+
+{% block content %}
+    {% include "./search_bar.html" %}
+
+    {% for tv_show in tv_shows %}
+        {% url 'tv_show' tv_show.id as tv_show_url %}
+
+        <div class="cell cell-tall">
+            <a href="{{tv_show_url}}">
+                <img src="{{tv_show.poster_path}}" alt="{{tv_show.name}}">
+            </a>
+
+            <div class="cell-title ellipsis">
+                <a href="{{tv_show_url}}">
+                    {{tv_show.detail_name|default_if_none:tv_show.name}}
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

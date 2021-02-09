@@ -1,0 +1,48 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Page Title</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'style.css' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}" />
+</head>
+
+<body>
+    <nav>
+        <a href="/library/">Home</a>
+        <hr/>
+    </nav>
+
+    <script>
+        function scanPost() {
+            fetch("/api/scan/{{library.id}}/", {method: 'POST', headers: { "X-CSRFToken": "{{csrf_token}}"}})
+            .then(x => {
+                console.log(x);
+            })
+            .catch(x => {
+                console.log(x);
+            });
+        }
+    </script>
+    
+    <button onclick="scanPost()">Scan</button>
+    
+    <h1>{{library.name}}</h1>
+
+    {% for tv_show in tv_shows %}
+        <div class="cell cell-tall">
+            <a href="/library/{{library.id}}/tv_show/{{tv_show.id}}">
+                <img src="{{tv_show.poster_path}}" alt="{{tv_show.name}}">
+            </a>
+
+            <div class="cell-title ellipsis">
+                <a href="/library/{{library.id}}/tv_show/{{tv_show.id}}">
+                    {{tv_show.name}}
+                </a>
+            </div>
+        </div>
+    {% endfor %}    
+</body>
+</html>
